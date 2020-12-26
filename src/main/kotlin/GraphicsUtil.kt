@@ -16,6 +16,9 @@ object GraphicsUtil {
 
     val LINE_THICKNESS = 3.0
 
+    val PIX_W
+        get() = ROBOT_WIDTH * pixelsPerInch
+
     val PATH_COLOR = Color.YELLOW
     val ROBOT_COLOR = Color.MAROON
     val ROBOT_VECTOR_COLOR = Color.BLUE
@@ -74,15 +77,25 @@ object GraphicsUtil {
     }
 
     fun updateRobotRect(rectangle: Rectangle, pose2d: Pose2d, color: Color, opacity: Double) {
-        val pix_w = ROBOT_WIDTH * pixelsPerInch
-
-        rectangle.width = pix_w
-        rectangle.height = pix_w
-
         val center_pix = pose2d.vec().toPixel
-        rectangle.x = center_pix.x - pix_w / 2.0
-        rectangle.y = center_pix.y - pix_w / 2.0
-        rectangle.fill = color
+        updateRobotRectPixelInput(
+            rectangle,
+            Pose2d(center_pix, pose2d.heading),
+            color,
+            opacity
+        )
+    }
+
+    fun updateRobotRectPixelInput(rectangle: Rectangle, pose2d: Pose2d, color: Color, opacity: Double) {
+        rectangle.width = PIX_W
+        rectangle.height = PIX_W
+        val x = (pose2d.x - PIX_W / 2.0)
+        val y = (pose2d.y - PIX_W / 2.0)
+        val acceptedValues = 0.0..(halfFieldPixels * 2.0 - PIX_W)
+        rectangle.x = x.coerceIn(acceptedValues)
+        rectangle.y = y.coerceIn(acceptedValues)
+        rectangle.fill =
+            if ((x in acceptedValues) and (y in acceptedValues)) color else color.invert()
         rectangle.opacity = opacity
         rectangle.rotate = Math.toDegrees(-pose2d.heading)
     }
@@ -96,4 +109,10 @@ val Vector2d.toPixel
     get() = Vector2d(
         -y * GraphicsUtil.pixelsPerInch + GraphicsUtil.halfFieldPixels,
         -x * GraphicsUtil.pixelsPerInch + GraphicsUtil.halfFieldPixels
+    )
+
+val Vector2d.fromPixel
+    get() = Vector2d(
+        -(y - GraphicsUtil.halfFieldPixels) / GraphicsUtil.pixelsPerInch,
+        -(x - GraphicsUtil.halfFieldPixels) / GraphicsUtil.pixelsPerInch
     )
