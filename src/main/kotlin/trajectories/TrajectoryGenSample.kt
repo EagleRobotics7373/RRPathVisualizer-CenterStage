@@ -1,3 +1,5 @@
+package trajectories
+
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.acmerobotics.roadrunner.trajectory.Trajectory
@@ -5,8 +7,12 @@ import StartingLine.*
 import AllianceColor.*
 import com.acmerobotics.roadrunner.trajectory.constraints.DriveConstraints
 import com.acmerobotics.roadrunner.trajectory.constraints.MecanumConstraints
+import core.generator.Config
+import core.generator.Disabled
+import core.generator.TrajectoryGenUltimateGoal
 import kotlin.math.PI
 
+//@Disabled     // uncomment this to block the trajectory from being loaded
 class TrajectoryGenSample : TrajectoryGenUltimateGoal(
     driveConstraints = MecanumConstraints(
         DriveConstraints(40.0, 20.0, 40.0, PI, PI, 0.0),

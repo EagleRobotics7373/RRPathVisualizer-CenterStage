@@ -1,3 +1,8 @@
+package core.config
+
+import core.generator.Config
+import core.generator.PrimaryTrajectory
+import core.generator.TrajectoryGen
 import java.lang.reflect.InvocationTargetException
 import kotlin.reflect.KMutableProperty1
 import kotlin.reflect.KVisibility
@@ -9,7 +14,7 @@ import kotlin.reflect.jvm.javaType
 import kotlin.reflect.jvm.jvmErasure
 
 class TrajectoryContainer(val clazz: Class<out TrajectoryGen>) {
-    val name: String get() = this.clazz.name
+    val name: String get() = this.clazz.simpleName
     val generator = this.clazz.getDeclaredConstructor().newInstance()
     val isPrimary = this.clazz.kotlin.findAnnotation<PrimaryTrajectory>() != null
 

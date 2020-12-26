@@ -1,16 +1,16 @@
+package core.generator
+
+import AllianceColor
+import StartingLine
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.acmerobotics.roadrunner.trajectory.Trajectory
 import com.acmerobotics.roadrunner.trajectory.TrajectoryBuilder
 import com.acmerobotics.roadrunner.trajectory.constraints.DriveConstraints
 import com.acmerobotics.roadrunner.trajectory.constraints.MecanumConstraints
-import java.lang.reflect.InvocationTargetException
+import core.GraphicsUtil
 import kotlin.collections.ArrayList
-import kotlin.reflect.KMutableProperty1
-import kotlin.reflect.KVisibility
 import kotlin.reflect.full.*
-import kotlin.reflect.jvm.javaType
-import kotlin.reflect.jvm.jvmErasure
 
 abstract class TrajectoryGen(
     // Remember to set these constraints to the same values as your DriveConstants.java file in the quickstart
@@ -22,7 +22,7 @@ abstract class TrajectoryGen(
         270.0.toRadians,
         0.0
     ),
-    // Remember to set your track width to an estimate of your actual bot to get accurate trajectory profile duration!
+    // Remember to set your track width to an estimate of your actual bot to get accurate core.trajectory profile duration!
     private var trackWidth: Double = 16.0
 ) {
 
@@ -66,12 +66,5 @@ abstract class TrajectoryGenUltimateGoal(
     protected infix fun Double.reverseIf(startingLine: StartingLine): Double =
         if (this@TrajectoryGenUltimateGoal.startingLine == startingLine) -this else this
 }
-
-
-@Target(AnnotationTarget.PROPERTY)
-annotation class Config(val title: String = "", val environment: Boolean = false)
-
-@Target(AnnotationTarget.CLASS)
-annotation class PrimaryTrajectory
 
 val Double.toRadians get() = (Math.toRadians(this))

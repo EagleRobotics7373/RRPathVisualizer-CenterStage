@@ -1,3 +1,5 @@
+package core
+
 object Clock {
     val milliseconds: Long
         get() = System.currentTimeMillis()

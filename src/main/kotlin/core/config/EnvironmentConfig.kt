@@ -1,3 +1,5 @@
+package core.config
+
 object EnvironmentConfig {
 
     private val boolSettings = emptyList<TrajectoryGenSetting<Boolean>>().toMutableList()

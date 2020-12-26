@@ -1,6 +1,11 @@
+package core
+
+import core.generator.TrajectoryGen
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.acmerobotics.roadrunner.trajectory.Trajectory
+import core.config.*
+import core.generator.Disabled
 import javafx.animation.KeyFrame
 import javafx.animation.Timeline
 import javafx.application.Application
@@ -31,17 +36,19 @@ import javafx.stage.Stage
 import javafx.util.Duration
 import org.reflections.Reflections
 import java.lang.reflect.Modifier
+import kotlin.reflect.full.findAnnotation
 
 class App : Application() {
 
-    // List of available trajectory generators, and associated settings
-    private val trajectoryGenContainers = Reflections("")
+    // List of available core.trajectory generators, and associated settings
+    private val trajectoryGenContainers = Reflections("trajectories")
         .getSubTypesOf(TrajectoryGen::class.java)
         .filter { !Modifier.isAbstract(it.modifiers) }
+        .filter { it.kotlin.findAnnotation<Disabled>() == null }
         .map { TrajectoryContainer(it) }
         .toList()
 
-    // The current trajectory container
+    // The current core.trajectory container
     private var trajectoryGenContainer =
         trajectoryGenContainers.firstOrNull { it.isPrimary } ?: trajectoryGenContainers.first()
         set(newValue) {
@@ -51,7 +58,7 @@ class App : Application() {
     // The current list of trajectories from the container
     private var trajectories: ArrayList<Trajectory> = trajectoryGenContainer.generator.createTrajectory()
 
-    // Variable containing multiple aspects relating to the trajectory
+    // Variable containing multiple aspects relating to the core.trajectory
     private val profile get() = TrajectoryProfile(trajectories)
 
     private fun configDidChange(trajectoryGenSetting: TrajectoryGenSetting<*>? = null) {
@@ -192,7 +199,7 @@ class App : Application() {
                 // Container with all header items
                 VBox(
                     HBox(
-                        ImageView("file:./src/main/assets/Eagle Head.png")
+                        ImageView("/Eagle Head.png")
                             .also {
                                 it.isPreserveRatio = true
                                 it.fitWidth = 80.0
