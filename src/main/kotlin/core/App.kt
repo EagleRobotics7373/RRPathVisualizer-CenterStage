@@ -69,6 +69,7 @@ class App : Application() {
 
     private fun trajectoryDidChange() {
         configDidChange()
+        this.fieldImage = Image(trajectoryGenContainer.generator.fieldImageName)
         settingsContainer.children.clear()
         settingsContainer.children.add(settingsForTrajectoryContainer)
     }
@@ -174,7 +175,7 @@ class App : Application() {
 
     override fun start(stage: Stage?) {
         this.stage = stage!!
-        fieldImage = Image("/field.png")
+        fieldImage = Image("/field_ultimate-goal.png")
 
         val root = Group()
 

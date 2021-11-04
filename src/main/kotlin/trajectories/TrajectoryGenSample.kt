@@ -3,8 +3,6 @@ package trajectories
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.acmerobotics.roadrunner.trajectory.Trajectory
-import StartingLine.*
-import AllianceColor.*
 import com.acmerobotics.roadrunner.trajectory.constraints.DriveConstraints
 import com.acmerobotics.roadrunner.trajectory.constraints.MecanumConstraints
 import core.generator.Config
@@ -27,7 +25,7 @@ class TrajectoryGenSample : TrajectoryGenUltimateGoal(
     override fun createTrajectory(): ArrayList<Trajectory> {
         startPose = Pose2d(
             -63.0,
-            (if (startingLine == CENTER) -24.0 else -24.0 - 24.0) reverseIf BLUE,
+            (if (startingLine == StartingLine.CENTER) -24.0 else -24.0 - 24.0) reverseIf AllianceColor.BLUE,
             startingHeading
         )
 

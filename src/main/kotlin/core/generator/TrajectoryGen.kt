@@ -1,7 +1,5 @@
 package core.generator
 
-import AllianceColor
-import StartingLine
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.acmerobotics.roadrunner.trajectory.Trajectory
@@ -10,7 +8,6 @@ import com.acmerobotics.roadrunner.trajectory.constraints.DriveConstraints
 import com.acmerobotics.roadrunner.trajectory.constraints.MecanumConstraints
 import core.GraphicsUtil
 import kotlin.collections.ArrayList
-import kotlin.reflect.full.*
 
 abstract class TrajectoryGen(
     // Remember to set these constraints to the same values as your DriveConstants.java file in the quickstart
@@ -23,7 +20,9 @@ abstract class TrajectoryGen(
         0.0
     ),
     // Remember to set your track width to an estimate of your actual bot to get accurate core.trajectory profile duration!
-    private var trackWidth: Double = 16.0
+    private var trackWidth: Double = 16.0,
+
+    var fieldImageName: String = "field_generic.png"
 ) {
 
     private val combinedConstraints get() = MecanumConstraints(driveConstraints, trackWidth)
@@ -44,27 +43,49 @@ abstract class TrajectoryGen(
 
     protected fun TrajectoryBuilder.saveAndBuildTo(list: ArrayList<Trajectory>) =
         list.add(this.saveAndBuild())
+
+    @Config(title = "Alliance Color", environment = true)
+    var allianceColor: AllianceColor = AllianceColor.BLUE
+
+    protected infix fun Double.reverseIf(allianceColor: AllianceColor): Double =
+        if (this@TrajectoryGen.allianceColor == allianceColor) -this else this
+
+    enum class AllianceColor {
+        RED, BLUE
+    }
 }
 
 abstract class TrajectoryGenUltimateGoal(
     driveConstraints: DriveConstraints,
     trackWidth: Double
-) : TrajectoryGen(driveConstraints, trackWidth) {
+) : TrajectoryGen(driveConstraints, trackWidth, "field_ultimate-goal.png") {
 
     @Config(title = "Starting Line", environment = true)
     var startingLine: StartingLine = StartingLine.FAR
 
-    @Config(title = "Alliance Color", environment = true)
-    var allianceColor: AllianceColor = AllianceColor.BLUE
-
     @Config(title = "Number of Rings")
     var numRings: Int = 0
 
-    protected infix fun Double.reverseIf(allianceColor: AllianceColor): Double =
-        if (this@TrajectoryGenUltimateGoal.allianceColor == allianceColor) -this else this
-
     protected infix fun Double.reverseIf(startingLine: StartingLine): Double =
         if (this@TrajectoryGenUltimateGoal.startingLine == startingLine) -this else this
+
+    enum class StartingLine {
+        CENTER, FAR
+    }
+}
+
+abstract class TrajectoryGenFreightFrenzy(
+    driveConstraints: DriveConstraints,
+    trackWidth: Double
+) : TrajectoryGen(driveConstraints, trackWidth, "field_freight-frenzy.png") {
+
+    @Config(title = "Duck Position")
+    var duckPosition: DuckPosition = DuckPosition.LEFT
+
+    enum class DuckPosition {
+        LEFT, CENTER, RIGHT
+    }
+
 }
 
 val Double.toRadians get() = (Math.toRadians(this))
