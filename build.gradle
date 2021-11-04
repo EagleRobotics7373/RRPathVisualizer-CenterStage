@@ -28,4 +28,4 @@ javafx {
     modules = [ 'javafx.graphics', 'javafx.controls' ]
 }
 
-mainClassName = 'AppKt'
+mainClassName = 'core.App'
