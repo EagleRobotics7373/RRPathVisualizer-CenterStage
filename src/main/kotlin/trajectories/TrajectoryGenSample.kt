@@ -5,13 +5,14 @@ import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.acmerobotics.roadrunner.trajectory.Trajectory
 import com.acmerobotics.roadrunner.trajectory.constraints.DriveConstraints
 import com.acmerobotics.roadrunner.trajectory.constraints.MecanumConstraints
+import com.sun.scenario.effect.impl.sw.java.JSWBlend_BLUEPeer
 import core.generator.Config
 import core.generator.Disabled
-import core.generator.TrajectoryGenUltimateGoal
+import core.generator.TrajectoryGenPowerPlay
 import kotlin.math.PI
 
 //@Disabled     // uncomment this to block the trajectory from being loaded
-class TrajectoryGenSample : TrajectoryGenUltimateGoal(
+class TrajectoryGenSample : TrajectoryGenPowerPlay(
     driveConstraints = MecanumConstraints(
         DriveConstraints(40.0, 20.0, 40.0, PI, PI, 0.0),
         16.0
@@ -24,8 +25,8 @@ class TrajectoryGenSample : TrajectoryGenUltimateGoal(
 
     override fun createTrajectory(): ArrayList<Trajectory> {
         startPose = Pose2d(
-            -63.0,
-            (if (startingLine == StartingLine.CENTER) -24.0 else -24.0 - 24.0) reverseIf AllianceColor.BLUE,
+            -36.0 reverseIf StartingRow.ROW2,
+            -63.0 reverseIf AllianceColor.BLUE,
             startingHeading
         )
 
@@ -33,7 +34,7 @@ class TrajectoryGenSample : TrajectoryGenUltimateGoal(
 
 
         // Small Example Routine
-        builder()
+        builder(PI / 2 reverseIf AllianceColor.BLUE)
             .splineTo(Vector2d(10.0, 10.0), 0.0)
             .splineTo(Vector2d(15.0, 15.0), 90.0)
             .saveAndBuildTo(list)

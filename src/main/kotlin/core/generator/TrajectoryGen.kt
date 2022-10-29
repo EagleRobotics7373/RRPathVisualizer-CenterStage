@@ -88,4 +88,30 @@ abstract class TrajectoryGenFreightFrenzy(
 
 }
 
+abstract class TrajectoryGenPowerPlay(
+    driveConstraints: DriveConstraints,
+    trackWidth: Double
+) : TrajectoryGen(driveConstraints, trackWidth, "field_power-play.png") {
+
+
+    @Config(title = "Starting Row", environment = true)
+    var startingRow: TrajectoryGenPowerPlay.StartingRow = TrajectoryGenPowerPlay.StartingRow.ROW2
+
+    @Config(title = "Signal Orientation", environment = true)
+    var signalOrientation: TrajectoryGenPowerPlay.SignalOrientation = TrajectoryGenPowerPlay.SignalOrientation.IMAGE1
+
+    enum class StartingRow {
+        ROW2, ROW5
+    }
+
+    enum class SignalOrientation {
+        IMAGE1, IMAGE2, IMAGE3
+    }
+
+    protected infix fun Double.reverseIf(startingRow: TrajectoryGenPowerPlay.StartingRow): Double =
+        if (this@TrajectoryGenPowerPlay.startingRow == startingRow) -this else this
+
+
+}
+
 val Double.toRadians get() = (Math.toRadians(this))
