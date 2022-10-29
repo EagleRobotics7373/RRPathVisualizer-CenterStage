@@ -76,7 +76,7 @@ class App : Application() {
 
     // Empty group representing settings
     var settingsContainer = Group()
-    private val maxNumberOfSettings = trajectoryGenContainers.maxBy { it.settings.count() }?.settings?.count()
+    private val maxNumberOfSettings = trajectoryGenContainers.maxByOrNull { it.settings.count() }?.settings?.count()
 
     private val settingsForTrajectoryContainer: GridPane
         get() {
