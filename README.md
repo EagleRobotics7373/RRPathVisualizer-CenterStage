@@ -44,21 +44,31 @@ to be replaced when copying to robot code in Android Studio.
 Finally, return the list created earlier in the function.
 
 ### Infix functions
-The infix functions contained within the `TrajectoryGenUltimateGoal` class provide easy capability for changing robot position based on the current alliance color or robot starting position:
-- Double.reverseIf(AllianceColor) flips the sign of a Double if the current alliance color matches the value passed to the function
-- Double.reverseIf(StartingLine) flips the sign of a Double if the current starting line matches the value passed to the function
+The infix functions contained within classes extending `TrajectoryGen` classes provide easy capability for changing
+robot position based on the current alliance color or robot starting position.
+For example, the `TrajectoryGenUltimateGoal` class contains the following methods:
+
+- Double.reverseIf(AllianceColor) flips the sign of a Double if the current alliance color matches the value passed to
+  the function
+- Double.reverseIf(StartingLine) flips the sign of a Double if the current starting line matches the value passed to the
+  function
 
 Ex. `6.0 reverseIf BLUE` returns `6.0` if the set alliance color is `RED` or `-6.0` if the set alliance color is `BLUE`.
-The infix functions contained within the `TrajectoryGenUltimateGoal` class provide easy capability for changing robot position based on the current alliance color or robot starting position.  
- 
-## Viewing trajectories
-Any Kotlin class extending `TrajectoryGen` and stored in the `trajectories` package will automatically be loaded upon application start.
+The infix functions contained within the `TrajectoryGenUltimateGoal` class provide easy capability for changing robot
+position based on the current alliance color or robot starting position.
 
-Extend the `TrajectoryGenUltimateGoal` class to receive three built-in environment config variables that can be edited near the top of the application:
+## Viewing trajectories
+
+Any Kotlin class extending `TrajectoryGen` and stored in the `trajectories` package will automatically be loaded upon
+application start.
+
+Extend the `TrajectoryGenPowerPlay` class to receive three built-in environment config variables that can be edited near
+the top of the application:
+
 - Alliance color (red or blue)
-- Starting line (closest to center or edge of field)
-- Number of rings in starter stack
-  
+- Starting row (row 2 or row 5 of field)
+- Signal orientation (image 1, image 2, or image 3)
+
 A drop-down menu at the top of the application can be used for swapping between the created trajectory generators.
 
 ## Annotations

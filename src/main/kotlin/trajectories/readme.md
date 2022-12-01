@@ -3,11 +3,11 @@
 Any Kotlin class extending `TrajectoryGen` and stored in this `trajectories` package will automatically be loaded upon
 application start.
 
-Extend the `TrajectoryGenUltimateGoal` class to receive three environment config variables:
+Extend the `TrajectoryGenPowerPlay` class to receive three environment config variables:
 
 - Alliance color (red or blue)
-- Starting line (closest to center or edge of field)
-- Number of rings in starter stack
+- Starting row (row 2 or row 5 of field)
+- Signal orientation (image 1, image 2, or image 3)
 
 ## Annotations
 
