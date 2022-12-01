@@ -4,28 +4,17 @@ import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.acmerobotics.roadrunner.trajectory.Trajectory
 import com.acmerobotics.roadrunner.trajectory.TrajectoryBuilder
-import com.acmerobotics.roadrunner.trajectory.constraints.DriveConstraints
-import com.acmerobotics.roadrunner.trajectory.constraints.MecanumConstraints
+import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAccelerationConstraint
+import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint
 import core.GraphicsUtil
 import kotlin.collections.ArrayList
 
 abstract class TrajectoryGen(
-    // Remember to set these constraints to the same values as your DriveConstants.java file in the quickstart
-    private var driveConstraints: DriveConstraints = DriveConstraints(
-        50.0,
-        25.0,
-        40.0,
-        270.0.toRadians,
-        270.0.toRadians,
-        0.0
-    ),
-    // Remember to set your track width to an estimate of your actual bot to get accurate core.trajectory profile duration!
-    private var trackWidth: Double = 16.0,
+    private var trajectoryVelocityConstraint: TrajectoryVelocityConstraint,
+    private var trajectoryAccelerationConstraint: TrajectoryAccelerationConstraint,
 
     var fieldImageName: String = "field_generic.png"
 ) {
-
-    private val combinedConstraints get() = MecanumConstraints(driveConstraints, trackWidth)
 
     var startPose: Pose2d = Pose2d()
 
@@ -36,7 +25,7 @@ abstract class TrajectoryGen(
     }
 
     protected fun builder(tangent: Double = startPose.heading): TrajectoryBuilder =
-        TrajectoryBuilder(startPose, tangent, combinedConstraints)
+        TrajectoryBuilder(startPose, tangent, trajectoryVelocityConstraint, trajectoryAccelerationConstraint)
 
     protected fun TrajectoryBuilder.saveAndBuild(): Trajectory =
         this.build().also { this@TrajectoryGen.startPose = it.end() }
@@ -56,9 +45,9 @@ abstract class TrajectoryGen(
 }
 
 abstract class TrajectoryGenUltimateGoal(
-    driveConstraints: DriveConstraints,
-    trackWidth: Double
-) : TrajectoryGen(driveConstraints, trackWidth, "field_ultimate-goal.png") {
+    trajectoryVelocityConstraint: TrajectoryVelocityConstraint,
+    trajectoryAccelerationConstraint: TrajectoryAccelerationConstraint,
+) : TrajectoryGen(trajectoryVelocityConstraint, trajectoryAccelerationConstraint, "field_ultimate-goal.png") {
 
     @Config(title = "Starting Line", environment = true)
     var startingLine: StartingLine = StartingLine.FAR
@@ -75,9 +64,9 @@ abstract class TrajectoryGenUltimateGoal(
 }
 
 abstract class TrajectoryGenFreightFrenzy(
-    driveConstraints: DriveConstraints,
-    trackWidth: Double
-) : TrajectoryGen(driveConstraints, trackWidth, "field_freight-frenzy.png") {
+    trajectoryVelocityConstraint: TrajectoryVelocityConstraint,
+    trajectoryAccelerationConstraint: TrajectoryAccelerationConstraint,
+) : TrajectoryGen(trajectoryVelocityConstraint, trajectoryAccelerationConstraint, "field_freight-frenzy.png") {
 
     @Config(title = "Duck Position")
     var duckPosition: DuckPosition = DuckPosition.LEFT
@@ -89,9 +78,9 @@ abstract class TrajectoryGenFreightFrenzy(
 }
 
 abstract class TrajectoryGenPowerPlay(
-    driveConstraints: DriveConstraints,
-    trackWidth: Double
-) : TrajectoryGen(driveConstraints, trackWidth, "field_power-play.png") {
+    trajectoryVelocityConstraint: TrajectoryVelocityConstraint,
+    trajectoryAccelerationConstraint: TrajectoryAccelerationConstraint,
+) : TrajectoryGen(trajectoryVelocityConstraint, trajectoryAccelerationConstraint, "field_power-play.png") {
 
 
     @Config(title = "Starting Row", environment = true)

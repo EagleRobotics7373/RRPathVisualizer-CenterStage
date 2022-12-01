@@ -13,11 +13,12 @@ sourceCompatibility = 18
 repositories {
     mavenCentral()
     jcenter()
+    maven { url = 'https://maven.brott.dev/' }
 }
 
 dependencies {
 
-    implementation 'com.acmerobotics.roadrunner:core:0.5.1'
+    implementation 'com.acmerobotics.roadrunner:core:0.5.5'
     implementation "org.jetbrains.kotlin:kotlin-reflect:1.6.21"
     implementation group: 'org.reflections', name: "reflections", version: '0.9.12'
 }

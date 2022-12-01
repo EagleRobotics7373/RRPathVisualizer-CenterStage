@@ -3,21 +3,13 @@ package trajectories
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.acmerobotics.roadrunner.trajectory.Trajectory
-import com.acmerobotics.roadrunner.trajectory.constraints.DriveConstraints
-import com.acmerobotics.roadrunner.trajectory.constraints.MecanumConstraints
-import com.sun.scenario.effect.impl.sw.java.JSWBlend_BLUEPeer
-import core.generator.Config
-import core.generator.Disabled
-import core.generator.TrajectoryGenPowerPlay
+import core.generator.*
 import kotlin.math.PI
 
 //@Disabled     // uncomment this to block the trajectory from being loaded
 class TrajectoryGenSample : TrajectoryGenPowerPlay(
-    driveConstraints = MecanumConstraints(
-        DriveConstraints(40.0, 20.0, 40.0, PI, PI, 0.0),
-        16.0
-    ),
-    trackWidth = 16.0
+    trajectoryVelocityConstraint = getMecanumVelocityConstraint(40.0, Math.PI, 16.0),
+    trajectoryAccelerationConstraint = getAccelerationConstraint(30.0)
 ) {
 
     @Config
@@ -36,7 +28,6 @@ class TrajectoryGenSample : TrajectoryGenPowerPlay(
         // Small Example Routine
         builder(PI / 2 reverseIf AllianceColor.BLUE)
             .splineTo(Vector2d(10.0, 10.0), 0.0)
-            .splineTo(Vector2d(15.0, 15.0), 90.0)
             .saveAndBuildTo(list)
 
 
