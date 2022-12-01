@@ -27,7 +27,7 @@ class TrajectoryGenSample : TrajectoryGenPowerPlay(
 
         // Small Example Routine
         builder(PI / 2 reverseIf AllianceColor.BLUE)
-            .splineTo(Vector2d(10.0, 10.0), 0.0)
+            .splineTo(Vector2d(10.0, 10.0), if (startingRow == StartingRow.ROW2) PI else 0.0)
             .saveAndBuildTo(list)
 
 
