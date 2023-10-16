@@ -7,7 +7,7 @@ import core.generator.*
 import kotlin.math.PI
 
 //@Disabled     // uncomment this to block the trajectory from being loaded
-class TrajectoryGenSample : TrajectoryGenPowerPlay(
+class TrajectoryGenSouth : TrajectoryGenCenterStage(
     trajectoryVelocityConstraint = getMecanumVelocityConstraint(40.0, Math.PI, 16.0),
     trajectoryAccelerationConstraint = getAccelerationConstraint(30.0)
 ) {
@@ -17,8 +17,8 @@ class TrajectoryGenSample : TrajectoryGenPowerPlay(
 
     override fun createTrajectory(): ArrayList<Trajectory> {
         startPose = Pose2d(
-            -38.765 reverseIf StartingRow.ROW2,
-            -62.854 reverseIf AllianceColor.BLUE,
+            39.0,
+            -65.0 reverseIf AllianceColor.BLUE,
             startingHeading
         )
 
@@ -27,9 +27,10 @@ class TrajectoryGenSample : TrajectoryGenPowerPlay(
 
         // Small Example Routine
         builder(PI / 2 reverseIf AllianceColor.BLUE)
-            .splineTo(Vector2d(10.0, 10.0), if (startingRow == StartingRow.ROW2) PI else 0.0)
+            .splineToConstantHeading(Vector2d(
+                -12.5,
+                (if (signalPosition == SignalPosition.LEFT) -46.0 else -43.1) reverseIf AllianceColor.BLUE), Math.PI/2 reverseIf AllianceColor.BLUE)
             .saveAndBuildTo(list)
-
 
         return list
     }

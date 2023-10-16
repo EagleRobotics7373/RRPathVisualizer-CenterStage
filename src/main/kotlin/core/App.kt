@@ -175,7 +175,7 @@ class App : Application() {
 
     override fun start(stage: Stage?) {
         this.stage = stage!!
-        fieldImage = Image("/field_ultimate-goal.png")
+        fieldImage = Image("/field_center-stage.png")
 
         val root = Group()
 

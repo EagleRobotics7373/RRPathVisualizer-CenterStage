@@ -12,6 +12,16 @@ import kotlin.collections.ArrayList
 abstract class TrajectoryGen(
     private var trajectoryVelocityConstraint: TrajectoryVelocityConstraint,
     private var trajectoryAccelerationConstraint: TrajectoryAccelerationConstraint,
+    private var driveConstraints: DriveConstraints = DriveConstraints(
+        50.0,
+        25.0,
+        40.0,
+        270.0.toRadians,
+        270.0.toRadians,
+        0.0
+    ),
+    // Remember to set your track width to an estimate of your actual bot to get accurate core.trajectory profile duration!
+    private var trackWidth: Double = 16.0,
 
     var fieldImageName: String = "field_generic.png"
 ) {
@@ -101,6 +111,25 @@ abstract class TrajectoryGenPowerPlay(
         if (this@TrajectoryGenPowerPlay.startingRow == startingRow) -this else this
 
 
+}
+abstract class TrajectoryGenCenterStage(
+    trajectoryVelocityConstraint: TrajectoryVelocityConstraint,
+    trajectoryAccelerationConstraint: TrajectoryAccelerationConstraint,
+) : TrajectoryGen(trajectoryVelocityConstraint, trajectoryAccelerationConstraint, "field_center-stage.png") {
+
+
+    @Config(title = "Signal Position", environment = true)
+    var signalPosition: TrajectoryGenCenterStage.SignalPosition = TrajectoryGenCenterStage.SignalPosition.LEFT
+
+      enum class SignalPosition {
+        LEFT, CENTER, RIGHT
+    }
+    @Config(title = "Post Signal Position Task", environment = true)
+    var postSignalPositionTask: TrajectoryGenCenterStage.PostSignalPositionTask = TrajectoryGenCenterStage.PostSignalPositionTask.NOTHING
+
+    enum class PostSignalPositionTask {
+        NOTHING, PARK
+    }
 }
 
 val Double.toRadians get() = (Math.toRadians(this))
